@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KMS Stacker V2 – AR</title>
+<meta name="description" content="Dual-station KMS ream stacker with centring guides, in augmented reality.">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --bg: #f3f4f6; --card: #ffffff; --ink: #0f172a; --muted: #475569;
+    --accent: #0b5cad; --accent-ink: #ffffff; --line: #e2e8f0; --a: #0b62b5; --b: #d46a0a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0b1220; --card: #111a2c; --ink: #e5e7eb; --muted: #94a3b8;
+            --accent: #3b8ee8; --accent-ink: #ffffff; --line: #1f2a40; --a: #4da3f0; --b: #f08a2c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background: var(--bg); color: var(--ink); }
+  header { padding: 20px 16px 8px; max-width: 1100px; margin: 0 auto; }
+  nav { display: flex; gap: 8px; margin-bottom: 10px; }
+  nav a { font-size: .85rem; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line);
+          color: var(--muted); text-decoration: none; }
+  nav a.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  h1 { margin: 0 0 4px; font-size: clamp(1.3rem, 4vw, 1.9rem); }
+  header p { margin: 0; color: var(--muted); }
+  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 32px;
+         display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { main { grid-template-columns: 1fr 340px; } }
+  .viewer { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; position: relative; }
+  model-viewer { width: 100%; height: min(70vh, 620px); background: linear-gradient(#e9ecf1, #cfd4db); }
+  @media (prefers-color-scheme: dark) { model-viewer { background: linear-gradient(#1b2436, #0e1626); } }
+  .ar-btn { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+            background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 999px;
+            padding: 14px 26px; font-size: 1rem; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.25); cursor: pointer; }
+  .controls { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .controls button, .controls a { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line);
+            background: transparent; color: var(--ink); text-decoration: none; cursor: pointer; }
+  aside { display: grid; gap: 16px; align-content: start; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .card h2 { font-size: 1rem; margin: 0 0 10px; }
+  ul, ol { margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.5; }
+  li strong { color: var(--ink); }
+  .a { color: var(--a); font-weight: 600; } .b { color: var(--b); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+  td:last-child { text-align: right; color: var(--muted); }
+  #qr { background: #fff; padding: 10px; border-radius: 8px; width: max-content; margin: 0 auto; }
+  .qr-card { display: none; text-align: center; }
+  .qr-card p { color: var(--muted); font-size: .9rem; }
+  @media (hover: hover) and (pointer: fine) { .qr-card { display: block; } }
+  .hint { color: var(--muted); font-size: .85rem; margin-top: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="../">Version 1 – single station</a><a class="on" href="./">Version 2 – dual station</a></nav>
+  <h1>KMS Dual-Station Ream Stacker (V2)</h1>
+  <p>Two production lines, two independent lifters, one centred output. Tap <strong>View in AR</strong> to see it life-size.</p>
+</header>
+
+<main>
+  <section class="viewer">
+    <model-viewer id="mv"
+      src="stacker_v2.glb"
+      ios-src="stacker_v2.usdz"
+      poster="poster.jpg"
+      alt="Animated 3D model of the dual-station KMS ream stacker"
+      ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor"
+      camera-controls touch-action="pan-y" autoplay animation-name="StackerCycle"
+      camera-orbit="30deg 62deg 3.1m" camera-target="0m 0.3m 0.4m" field-of-view="35deg"
+      shadow-intensity="1" shadow-softness="0.8" exposure="1.0" environment-image="neutral">
+      <button slot="ar-button" class="ar-btn">View in AR</button>
+    </model-viewer>
+    <div class="controls">
+      <button id="play">Pause</button>
+      <button id="restart">Restart cycle</button>
+      <a href="stacker_v2.glb" download>Download GLB (Android)</a>
+      <a href="stacker_v2.usdz" rel="ar">Download USDZ (iPhone)</a>
+    </div>
+  </section>
+
+  <aside>
+    <div class="card qr-card">
+      <h2>Open on your phone</h2>
+      <div id="qr"></div>
+      <p>Scan with an iPhone or Android camera, then tap “View in AR”.</p>
+    </div>
+    <div class="card">
+      <h2>What changed from V1</h2>
+      <ul>
+        <li><strong>Reams rotated 90°</strong> – 297 mm across the belt, 210 mm along the flow.</li>
+        <li><strong>Two lifters</strong> (<span class="a">A</span> / <span class="b">B</span>), each with its own stepper, lead screw and IR sensor, fed by its own production line from the side.</li>
+        <li><strong>Wide multi-strand belt</strong> carries both rows; the gaps between strands let each fork drop below the belt.</li>
+        <li><strong>Green HDPE guides</strong> funnel both rows onto the belt centreline for a single machine downstream.</li>
+        <li><strong>Independent timing</strong> – Line <span class="a">A</span> delivers a pack every 3.0 s, Line <span class="b">B</span> every 4.2 s. At the start, <span class="b">B</span> already holds 4 packs and <span class="a">A</span> holds 1.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Each lifter's cycle</h2>
+      <ol>
+        <li>A pack slides in from its line at load height; the IR sensor confirms it.</li>
+        <li>The lifter drops 52 mm, so the next pack lands at the same height.</li>
+        <li>After 5 packs the fork lowers through the belt gaps and the stack rests on the belt.</li>
+        <li>The belt runs; the guides centre the stack onto the outfeed.</li>
+        <li>The fork returns to load height. The two lifters never use the belt at the same time.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h2>Key data</h2>
+      <table>
+        <tr><td>Ream</td><td>A4, 500 sh, 80 g/m²</td></tr>
+        <tr><td>Stack per lifter</td><td>5 reams · 260 mm</td></tr>
+        <tr><td>Lifters</td><td>2 × NEMA 17 + T8 screw</td></tr>
+        <tr><td>Belt</td><td>5 strands, 740 mm overall</td></tr>
+        <tr><td>Guides</td><td>HDPE, 30° funnel, 4 mm clearance</td></tr>
+        <tr><td>Loop shown</td><td>36 s</td></tr>
+      </table>
+      <p class="hint">Concept model, not built from CAD. Dimensions are approximate.</p>
+    </div>
+  </aside>
+</main>
+
+<script>
+  const mv = document.getElementById('mv');
+  const playBtn = document.getElementById('play');
+  playBtn.addEventListener('click', () => {
+    if (mv.paused) { mv.play(); playBtn.textContent = 'Pause'; }
+    else { mv.pause(); playBtn.textContent = 'Play'; }
+  });
+  document.getElementById('restart').addEventListener('click', () => {
+    mv.currentTime = 0; mv.play(); playBtn.textContent = 'Pause';
+  });
+  try {
+    new QRCode(document.getElementById('qr'), { text: location.href, width: 180, height: 180 });
+  } catch (e) { /* QR is optional */ }
+</script>
+</body>
+</html>
